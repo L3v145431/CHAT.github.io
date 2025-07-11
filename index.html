@@ -103,7 +103,6 @@
             overflow: hidden;
             transform: rotate(180deg);
         }
-
         .n8n-chat-widget .brand-header * {
             color: var(--white) !important;
         }
@@ -242,7 +241,7 @@
             background: rgb(0, 0, 0);
             color: #ffffff;
             border: 1px solid #ffffff;
-            border-radius: 30px;
+            border-radius: 60px;
             padding: 12px 10px;
             cursor: pointer;
             font-size: 14px;
@@ -252,7 +251,6 @@
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
             animation: fadeIn 0.5s ease-out both;
             animation-delay: calc(0.1s * var(--i));
-             
         }
         .option-btn:hover {
             background: linear-gradient(to bottom, #ffffff, #ffffff);
@@ -655,7 +653,6 @@
             const emojiPicker = chatContainer.querySelector('.emoji-picker');
             const freeTextArea = chatContainer.querySelector('.free-text-area');
             const freeTextSendButton = chatContainer.querySelector('.free-text-send-button');
-
             function generateUUID() {
                 return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
                     const r = Math.random() * 16 | 0;
@@ -663,12 +660,11 @@
                     return v.toString(16);
                 });
             }
-
             function updateOptions() {
                 const newOptions = [
                     { text: "Innovation Consulting", i: 4 },
                     { text: " Design Innovation Strategy", i: 5 },
-                    { text: "Innovation Keynote ", i: 6 },
+                    { text: "Innovation Keynote", i: 6 },
                     { text: "Individual Training", i: 7 }
                 ];
                 const optionsContainer = chatContainer.querySelector('.options-container');
@@ -692,7 +688,6 @@
                 });
                 chatContainer.querySelector('.free-text-area-container').style.display = 'flex';
             }
-
             async function startNewConversation() {
                 currentSessionId = generateUUID();
                 const data = [{
@@ -724,7 +719,6 @@
                     console.error('Error:', error);
                 }
             }
-
             async function sendMessage(message) {
                 const messageData = {
                     action: "sendMessage",
@@ -758,7 +752,6 @@
                     console.error('Error:', error);
                 }
             }
-
             function handleFileUpload(event) {
                 const file = event.target.files[0];
                 if (file) {
@@ -777,7 +770,6 @@
                     reader.readAsDataURL(file);
                 }
             }
-
             uploadButton.addEventListener('click', () => {
                 const fileInput = document.createElement('input');
                 fileInput.type = 'file';
@@ -787,18 +779,15 @@
                 fileInput.click();
                 document.body.removeChild(fileInput);
             });
-
             emojiButton.addEventListener('click', () => {
                 emojiPicker.classList.toggle('show');
             });
-
             emojiPicker.querySelectorAll('button').forEach(button => {
                 button.addEventListener('click', () => {
                     textarea.value += button.textContent;
                     emojiPicker.classList.remove('show');
                 });
             });
-
             optionButtons.forEach(button => {
                 button.addEventListener('click', () => {
                     const message = button.textContent;
@@ -815,7 +804,6 @@
                     }
                 });
             });
-
             freeTextSendButton.addEventListener('click', () => {
                 const message = freeTextArea.value.trim();
                 if (message) {
@@ -823,7 +811,6 @@
                     freeTextArea.value = '';
                 }
             });
-
             freeTextArea.addEventListener('keypress', (e) => {
                 if (e.key === 'Enter' && !e.shiftKey) {
                     e.preventDefault();
@@ -834,7 +821,6 @@
                     }
                 }
             });
-
             sendButton.addEventListener('click', () => {
                 const message = textarea.value.trim();
                 if (message) {
@@ -842,7 +828,6 @@
                     textarea.value = '';
                 }
             });
-
             textarea.addEventListener('keypress', (e) => {
                 if (e.key === 'Enter' && !e.shiftKey) {
                     e.preventDefault();
@@ -853,7 +838,6 @@
                     }
                 }
             });
-
             function openChat() {
                 if (isChatOpen) return;
                 isChatOpen = true;
@@ -862,18 +846,15 @@
                     chatContainer.classList.add('open');
                 }, 10);
             }
-
             function closeChat() {
                 if (!isChatOpen) return;
                 isChatOpen = false;
-                chatContainer.classList.remove('open');
                 chatContainer.classList.add('closing');
                 setTimeout(() => {
                     chatContainer.style.display = 'none';
                     chatContainer.classList.remove('closing');
                 }, 500);
             }
-
             toggleButton.addEventListener('click', openChat);
             const closeButtons = chatContainer.querySelectorAll('.close-button');
             closeButtons.forEach(button => {
