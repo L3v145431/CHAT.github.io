@@ -6,7 +6,7 @@
     <title>Chat Widget - Mr. Spark</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Mantén todos los estilos CSS existentes */
+        /* Estilos CSS existentes */
         :root {
             --primary-yellow: #FFD700;
             --dark-yellow: #fda500;
@@ -172,8 +172,8 @@
         }
         .n8n-chat-widget .close-button {
             position: absolute;
-            right: 16px;
-            top: 50%;
+            right: 10px;
+            top: 20%;
             transform: translateY(-50%);
             background: none;
             border: none;
@@ -205,31 +205,32 @@
             height: 100%;
         }
         .start-button {
-    background: #FDC307; /* Color de fondo específico para el botón Start */
-    color: #000000; /* Color de texto específico para el botón Start */
-    padding: 12px 50px; /* Tamaño específico para el botón Start */
-    font-size: 16px;
-    border-radius: 30px;
-        transform: translateY(70px); /* Opcional: Mueve ligeramente el botón hacia arriba */
-      border: 2px solid rgb(0, 0, 0);
-  
- /* Tamaño de fuente específico para el botón Start */
-}
-.start-button:hover {
-    background: #FFBC00; /* Cambia el color de fondo al pasar el cursor */
-    color: #000000; /* Cambia el color del texto al pasar el cursor */
-
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Opcional: Añade una sombra para resaltar */
-}
-
-
-
-        .n8n-chat-widget .welcome-text {
+            background: #FDC307;
+            color: #000000;
+            padding: 12px 50px;
+            font-size: 16px;
+            border-radius: 30px;
+            transform: translateY(70px);
+            border: 2px solid #FDC307;
+        }
+        .start-button:hover {
+            background: #FFBC00;
+            color: #000000;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        .welcome-text {
             font-size: 22px;
             font-weight: 600;
             color: var(--dark-gray);
             margin-bottom: 20px;
             line-height: 1.4;
+            text-align: center;
+            animation: fadeIn 0.8s ease-out 0.3s both;
+        }
+        .sub-welcome-text {
+            font-size: 18px;
+            color: #777;
+            margin-bottom: 20px;
             text-align: center;
             animation: fadeIn 0.8s ease-out 0.3s both;
         }
@@ -259,14 +260,14 @@
             margin: 20px auto;
         }
         .option-btn {
-            background: rgb(0, 0, 0);
-            color: #ffffff;
-            border: 1px solid #ffffff;
+            background: #FDC307;
+            color: #000000;
+            border: 2px solid #FDC307;
             border-radius: 30px;
             padding: 12px 10px;
             cursor: pointer;
             font-size: 14px;
-            transition: all 0.2s ease;
+            
             font-weight: 500;
             text-align: center;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
@@ -274,9 +275,8 @@
             animation-delay: calc(0.1s * var(--i));
         }
         .option-btn:hover {
-            background: linear-gradient(to bottom, #ffffff, #ffffff);
+            background: linear-gradient(to bottom, #FDC307, #FFBC00);
             color: rgb(0, 0, 0);
-            border-color: #030303;
             transform: translateY(-3px);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
@@ -604,6 +604,7 @@
                 </div>
                 <div class="new-conversation">
                     <h2 class="welcome-text">${config.branding.welcomeText}</h2>
+                    <p class="sub-welcome-text">Let’s get your quote started — this takes less than 3 minutes</p>
                     <button id="start-button" class="start-button">Start</button>
                     <div class="options-container" style="display: none;">
                         <button class="option-btn" style="--i:0">Product Design</button>
@@ -677,7 +678,7 @@
             const startButton = chatContainer.querySelector('#start-button');
             const optionsContainer = chatContainer.querySelector('.options-container');
             const welcomeText = chatContainer.querySelector('.welcome-text');
-
+            const subWelcomeText = chatContainer.querySelector('.sub-welcome-text');
             function generateUUID() {
                 return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
                     const r = Math.random() * 16 | 0;
@@ -685,7 +686,6 @@
                     return v.toString(16);
                 });
             }
-
             function updateOptions() {
                 const newOptions = [
                     { text: "Innovation Consulting", i: 4 },
@@ -713,13 +713,12 @@
                 });
                 chatContainer.querySelector('.free-text-area-container').style.display = 'flex';
             }
-
             startButton.addEventListener('click', function() {
                 startButton.style.display = 'none';
-                welcomeText.innerHTML = `${config.branding.welcomeText}<span>Let’s get your quote started, it’ll only take 3 minutes.</span>`;
+                subWelcomeText.style.display = 'none';
+                welcomeText.innerHTML = `${config.branding.welcomeText}<span>What service are you interested in?</span>`;
                 optionsContainer.style.display = 'grid';
             });
-
             async function startNewConversation() {
                 currentSessionId = generateUUID();
                 const data = [{
@@ -751,7 +750,6 @@
                     console.error('Error:', error);
                 }
             }
-
             async function sendMessage(message) {
                 const messageData = {
                     action: "sendMessage",
@@ -785,7 +783,6 @@
                     console.error('Error:', error);
                 }
             }
-
             function handleFileUpload(event) {
                 const file = event.target.files[0];
                 if (file) {
@@ -804,7 +801,6 @@
                     reader.readAsDataURL(file);
                 }
             }
-
             uploadButton.addEventListener('click', () => {
                 const fileInput = document.createElement('input');
                 fileInput.type = 'file';
@@ -814,18 +810,15 @@
                 fileInput.click();
                 document.body.removeChild(fileInput);
             });
-
             emojiButton.addEventListener('click', () => {
                 emojiPicker.classList.toggle('show');
             });
-
             emojiPicker.querySelectorAll('button').forEach(button => {
                 button.addEventListener('click', () => {
                     textarea.value += button.textContent;
                     emojiPicker.classList.remove('show');
                 });
             });
-
             optionButtons.forEach(button => {
                 button.addEventListener('click', () => {
                     const message = button.textContent;
@@ -842,7 +835,6 @@
                     }
                 });
             });
-
             freeTextSendButton.addEventListener('click', () => {
                 const message = freeTextArea.value.trim();
                 if (message) {
@@ -850,7 +842,6 @@
                     freeTextArea.value = '';
                 }
             });
-
             freeTextArea.addEventListener('keypress', (e) => {
                 if (e.key === 'Enter' && !e.shiftKey) {
                     e.preventDefault();
@@ -861,7 +852,6 @@
                     }
                 }
             });
-
             sendButton.addEventListener('click', () => {
                 const message = textarea.value.trim();
                 if (message) {
@@ -869,7 +859,6 @@
                     textarea.value = '';
                 }
             });
-
             textarea.addEventListener('keypress', (e) => {
                 if (e.key === 'Enter' && !e.shiftKey) {
                     e.preventDefault();
@@ -880,7 +869,6 @@
                     }
                 }
             });
-
             function openChat() {
                 if (isChatOpen) return;
                 isChatOpen = true;
@@ -889,18 +877,15 @@
                     chatContainer.classList.add('open');
                 }, 10);
             }
-
             function closeChat() {
                 if (!isChatOpen) return;
                 isChatOpen = false;
-                chatContainer.classList.remove('open');
                 chatContainer.classList.add('closing');
                 setTimeout(() => {
                     chatContainer.style.display = 'none';
                     chatContainer.classList.remove('closing');
                 }, 500);
             }
-
             toggleButton.addEventListener('click', openChat);
             const closeButtons = chatContainer.querySelectorAll('.close-button');
             closeButtons.forEach(button => {
