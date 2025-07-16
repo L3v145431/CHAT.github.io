@@ -259,6 +259,7 @@
             margin: 20px auto;
         }
         .option-btn {
+              white-space: pre-line;  /* ← respeta los \n   */
             background: #FDC307;
             color: #000000;
             border: 2px solid #FDC307;
@@ -688,8 +689,8 @@
             const newOptions = [
                 { text: "Innovation Consulting", i: 4 },
                 { text: "Innovation Strategy Design", i: 5 },
-                { text: "Inspiring  Keynote ", i: 6 },
-                { text: "Individual Training", i: 7 }
+                { text: "Inspiring\nKeynote ", i: 6 },
+                { text: "Individual\nTraining", i: 7 }
             ];
             optionsContainer.innerHTML = '';
             newOptions.forEach(option => {
